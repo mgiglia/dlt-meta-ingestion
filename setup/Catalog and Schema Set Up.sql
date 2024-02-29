@@ -24,6 +24,10 @@ use schema landing;
 
 -- COMMAND ----------
 
+select current_schema();
+
+-- COMMAND ----------
+
 drop volume if exists dropbox;
 create external volume dropbox
 location 's3://s3-databricks-mgiglia-solutions-landing/${env_mode}/dropbox';
