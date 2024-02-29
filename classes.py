@@ -1,6 +1,9 @@
 # Databricks notebook source
 import dlt
-from operations import *
+
+# COMMAND ----------
+
+# MAGIC %run ./operations
 
 # COMMAND ----------
 
@@ -23,17 +26,12 @@ class IngestionDLT:
         use_catalog_schema(sc = self.spark, catalog = self.catalog, schema = self.schema, env_mode = self.env_mode, verbose = False)
 
     def __repr__(self):
-        return f"""IngestionDLT(
-            env_mode='{self.env_mode}'
-            ,catalog='{self.catalog}'
-            ,schema='{self.schema}'
-            ,volume='{self.volume}')"""
+        return f"""IngestionDLT(env_mode='{self.env_mode}', catalog='{self.catalog}', schema='{self.schema}', volume='{self.volume}')"""
 
-    
-        
-    
-    
-
+    def ingest_raw_to_bronze(self):
+        """
+            
+        """
 
 # COMMAND ----------
 
@@ -47,7 +45,12 @@ pipeline = IngestionDLT(
 
 # COMMAND ----------
 
-display(pipeline.use_catalog_schema(verbose=True))
+pipeline
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC select current_catalog(), current_schema();
 
 # COMMAND ----------
 
