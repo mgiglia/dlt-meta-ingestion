@@ -134,10 +134,18 @@ class IngestionDLT:
             )
 
             return bronze_df
+        
+    def ingest_raw_to_bronze_synchronous(self, table_names: list, table_comments: list, table_properties: dict, source_folder_path_from_volumes: str, maxFiles: int = 1000, maxBytes: str = "10g", wholeText: bool = True, options: dict = None):
+        """
+            Synchronously inget from multiple subfolders of the same Volume into more than one bronze table.  Each bronze table created is managed as a streaming Delta Live Table in the same <catalog.schema> as the source volume.  
+        """
+        for i in range(0,len(table_names)):
+            ingest_raw_to_bronze(self = self, table_name = table_names[i], table_comment = table_comments[i], source_folder_path_from_volume = source_folder_path_from_volumes[i], table_properties = table_properties, maxFiles = maxFiles, maxBytes = maxBytes, wholeText = wholeText, options = options)
+
 
 # COMMAND ----------
 
-pipeline = IngestionDLT(
+Pipeline = IngestionDLT(
     spark = spark
     ,env_mode = env_mode
     ,catalog = "lakehouse"
@@ -147,7 +155,7 @@ pipeline = IngestionDLT(
 
 # COMMAND ----------
 
-pipeline
+Pipeline
 
 # COMMAND ----------
 
@@ -155,9 +163,13 @@ display(spark.sql("select current_catalog(), current_schema()"))
 
 # COMMAND ----------
 
-pipeline.ingest_raw_to_bronze(
-    table_name="dropbox_bronze"
-    ,table_comment="A full text record of every file that has landed in our dropbox folder."
-    ,table_properties=None
-    ,source_folder_path_from_volume=""
-)
+# Pipeline.ingest_raw_to_bronze(
+#     table_name="dropbox_bronze"
+#     ,table_comment="A full text record of every file that has landed in our dropbox folder."
+#     ,table_properties=None
+#     ,source_folder_path_from_volume=""
+# )
+
+# COMMAND ----------
+
+
